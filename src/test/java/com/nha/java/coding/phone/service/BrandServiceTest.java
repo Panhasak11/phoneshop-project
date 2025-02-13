@@ -3,9 +3,11 @@ package com.nha.java.coding.phone.service;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -18,7 +20,6 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
@@ -27,7 +28,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.nha.java.coding.phone.entity.Brand;
-import com.nha.java.coding.phone.exception.ResourceNotFound;
+import com.nha.java.coding.phone.exception.GlobalExceptionHandler;
+import com.nha.java.coding.phone.exception.ResourceNotFoundException;
 import com.nha.java.coding.phone.repository.BrandRepository;
 import com.nha.java.coding.phone.service.imp.BrandServiceImp;
 import com.nha.java.coding.phone.specification.BrandSpec;
@@ -81,7 +83,7 @@ public class BrandServiceTest {
 		
 		when(brandRepository.findById(Long.valueOf(2))).thenReturn(Optional.empty());
 		assertThatThrownBy(() -> brandService.getById(Long.valueOf(2)))
-			.isInstanceOfAny(ResourceNotFound.class)
+			.isInstanceOfAny(ResourceNotFoundException.class)
 			.hasMessage("Brand with id 2 not found");
 		
 	}
@@ -151,6 +153,25 @@ public class BrandServiceTest {
 	//test get brand specification 
 	
 	@Test
+	public void testGetBrandsNoFilter() {
+		
+		Map<String, String> params = new HashMap<>();
+		Pageable pageable = PageRequest.of(PageUtil.DEFAULT_PAGE_NUMBER, PageUtil.DEFAULT_PAGE_LIMIT);
+		
+		Page<Brand> page = new PageImpl<>(List.of(
+				new Brand(1L,"Apple"),
+				new Brand(2L,"Samsung")));
+		
+		when(brandRepository.findAll(any(BrandSpec.class),any(Pageable.class))).thenReturn(page);
+		
+		Page<Brand> brands = brandService.getBrands(params);
+		
+		assertNotNull(brands);
+		assertEquals(2, brands.getContent().size());
+		verify(brandRepository, times(1)).findAll(any(BrandSpec.class),any(Pageable.class));
+	}
+	
+	@Test
 	public void testGetBrandsNameFilter() {
 		Map<String, String> params = new HashMap<>();
 		params.put("name", "Apple");
@@ -207,6 +228,37 @@ public class BrandServiceTest {
 		assertNotNull(brands);
 		assertEquals(2, brands.getContent().size());
 		verify(brandRepository, times(1)).findAll(any(BrandSpec.class),eq(pageable));
+		
+	}
+	
+	@Test
+	public void testDeleteByIdSuccess() {
+		//give
+		Brand brand = new Brand(1L,"Apple");
+		
+		//when
+		when(brandRepository.findById(1L)).thenReturn(Optional.of(brand));
+		
+		brandService.deleteById(1L);
+		
+		//then
+		verify(brandRepository,times(1)).delete(brand);
+		
+	}
+	
+	@Test
+	public void testDeleteByIdBrandNotFound() {
+		
+		//when
+		when(brandRepository.findById(2L)).thenReturn(Optional.empty());
+		
+		
+		Exception exception = assertThrows(ResourceNotFoundException.class, () -> brandService.deleteById(2L));
+		
+		assertEquals("Brand with id 2 not found", exception.getMessage());
+		
+		//then
+		verify(brandRepository, never()).delete(any(Brand.class));
 		
 	}
 }

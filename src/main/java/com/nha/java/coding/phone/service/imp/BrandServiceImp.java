@@ -2,6 +2,8 @@ package com.nha.java.coding.phone.service.imp;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.nha.java.coding.phone.entity.Brand;
-import com.nha.java.coding.phone.exception.ResourceNotFound;
+import com.nha.java.coding.phone.exception.ResourceNotFoundException;
 import com.nha.java.coding.phone.repository.BrandRepository;
 import com.nha.java.coding.phone.service.BrandService;
 import com.nha.java.coding.phone.specification.BrandFilter;
@@ -32,7 +34,7 @@ public class BrandServiceImp implements BrandService{
 	@Override
 	public Brand getById(Long brandId) {
 		return brandRepository.findById(brandId)
-				.orElseThrow(() -> new ResourceNotFound("Brand", brandId));
+				.orElseThrow(() -> new ResourceNotFoundException("Brand", brandId));
 	}
 
 	@Override
@@ -93,6 +95,5 @@ public class BrandServiceImp implements BrandService{
 	public void deleteById(Long id) {
 		Brand brand = getById(id);
 		brandRepository.delete(brand);
-	}
-	
+	}	
 }

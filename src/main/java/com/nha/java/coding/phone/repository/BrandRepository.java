@@ -13,4 +13,5 @@ public interface BrandRepository extends JpaRepository<Brand, Long>,
 		JpaSpecificationExecutor<Brand>{
 
 	List<Brand> findByNameLike(String name);
+	List<Brand> deleteByName(String name);
 }

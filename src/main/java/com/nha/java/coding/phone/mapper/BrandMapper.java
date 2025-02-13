@@ -8,7 +8,7 @@ import com.nha.java.coding.phone.entity.Brand;
 
 @Mapper
 public interface BrandMapper {
-
+ 
 	BrandMapper INSTANCE = Mappers.getMapper(BrandMapper.class);
 	
 //	@Mapping(target = "brandId", source = "brandId")

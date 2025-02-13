@@ -3,6 +3,7 @@ package com.nha.java.coding.phone.exception;
 import org.springframework.http.HttpStatus;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Data

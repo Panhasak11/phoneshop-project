@@ -18,10 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nha.java.coding.phone.dto.BrandDTO;
+import com.nha.java.coding.phone.dto.ModelDTO;
 import com.nha.java.coding.phone.dto.PageDTO;
 import com.nha.java.coding.phone.entity.Brand;
+import com.nha.java.coding.phone.entity.Model;
 import com.nha.java.coding.phone.mapper.BrandMapper;
+import com.nha.java.coding.phone.mapper.ModelEntityMapper;
 import com.nha.java.coding.phone.service.BrandService;
+import com.nha.java.coding.phone.service.ModelService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,6 +35,8 @@ import lombok.RequiredArgsConstructor;
 public class BrandController {
 	
 	private final BrandService brandService;
+	private final ModelService modelService;
+	private final ModelEntityMapper modelEntityMapper;
 	
 	
 	@PostMapping
@@ -86,6 +92,15 @@ public class BrandController {
 	public ResponseEntity<?> deleteById(@PathVariable("id") Long id){
 		brandService.deleteById(id);
 		return ResponseEntity.ok().build();
+	}
+	
+	@GetMapping("{id}/models")
+	public ResponseEntity<?> getModelByBrand(@PathVariable("id") Long brandId){
+		List<Model> brands = modelService.getByBrand(brandId);
+		List<ModelDTO> list = brands.stream()
+			.map(modelEntityMapper::toModelDTO)
+			.toList();
+		return ResponseEntity.ok(list);
 	}
 
 }

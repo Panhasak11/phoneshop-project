@@ -66,14 +66,14 @@ public class BrandServiceTest {
 		//given
 		Brand brand = new Brand();
 		brand.setName("Apple");
-		brand.setBrandId(Long.valueOf(1));
+		brand.setId(Long.valueOf(1));
 		
 		//when
 		when(brandRepository.findById(Long.valueOf(1))).thenReturn(Optional.of(brand));
 	 	Brand brandReturn =brandService.getById(Long.valueOf(1));
 	 	
 	 	//then
-	 	assertEquals(1, brandReturn.getBrandId());
+	 	assertEquals(1, brandReturn.getId());
 	 	assertEquals("Apple", brandReturn.getName());
 	}
 	
@@ -82,6 +82,7 @@ public class BrandServiceTest {
 	public void testGetByIdThrow() {
 		
 		when(brandRepository.findById(Long.valueOf(2))).thenReturn(Optional.empty());
+		
 		assertThatThrownBy(() -> brandService.getById(Long.valueOf(2)))
 			.isInstanceOfAny(ResourceNotFoundException.class)
 			.hasMessage("Brand with id 2 not found");
@@ -93,16 +94,17 @@ public class BrandServiceTest {
 		//given
 		Long brandId = 1L;
 		Brand oldBrand = new Brand();
-		oldBrand.setBrandId(brandId);
+		oldBrand.setId(brandId);
 		oldBrand.setName("Apple");
 		
 		Brand newBrand = new Brand();
 		newBrand.setName("Samsung");
 		
+		oldBrand.setName(newBrand.getName());
+		
 		//when
 		when(brandRepository.findById(1L)).thenReturn(Optional.of(oldBrand));
-		when(brandRepository.save(any(Brand.class)))
-			.thenAnswer(invocation -> invocation.getArgument(0));
+		when(brandRepository.save(oldBrand)).thenReturn(oldBrand);
 		
 		Brand updateBrand = brandService.updateById(brandId, newBrand);
 		
@@ -145,8 +147,8 @@ public class BrandServiceTest {
 		assertEquals(2, result.size());
 		assertEquals("Apple", result.get(0).getName());
 		assertEquals("Samsung", result.get(1).getName());
-		assertEquals(1, result.get(0).getBrandId());
-		assertEquals(2, result.get(1).getBrandId());
+		assertEquals(1, result.get(0).getId());
+		assertEquals(2, result.get(1).getId());
 	}
 	
 	
@@ -203,7 +205,7 @@ public class BrandServiceTest {
 		
 		assertNotNull(brands);
 		assertEquals(1, brands.getContent().size());
-		assertEquals(1L, brands.getContent().get(0).getBrandId());
+		assertEquals(1L, brands.getContent().get(0).getId());
 		verify(brandRepository, times(1)).findAll(any(BrandSpec.class),any(Pageable.class));
 	}
 	

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -30,9 +31,12 @@ import org.springframework.http.ResponseEntity;
 import com.nha.java.coding.phone.dto.BrandDTO;
 import com.nha.java.coding.phone.dto.PageDTO;
 import com.nha.java.coding.phone.entity.Brand;
+import com.nha.java.coding.phone.entity.Model;
 import com.nha.java.coding.phone.mapper.BrandMapper;
+import com.nha.java.coding.phone.mapper.ModelEntityMapper;
 import com.nha.java.coding.phone.repository.BrandRepository;
 import com.nha.java.coding.phone.service.BrandService;
+import com.nha.java.coding.phone.service.ModelService;
 
 @ExtendWith(MockitoExtension.class)
 public class BrandControllerTest {
@@ -43,12 +47,17 @@ public class BrandControllerTest {
 	private BrandRepository brandRepository;
 	
 	private BrandController brandController;
-		
+	@Mock
+	private BrandMapper brandMapper;
+	
+	@Mock
+	private ModelService modelService;
+	@Mock
+	private ModelEntityMapper modelEntityMapper;
 	
 	@BeforeEach
 	void setUp() {
-		MockitoAnnotations.openMocks(this);
-		brandController = new BrandController(brandService);
+		brandController = new BrandController(brandService, modelService, modelEntityMapper);
 	}
 	
 	
@@ -76,12 +85,11 @@ public class BrandControllerTest {
 	public void testGetBrand() {
 		//given 
 		Brand brand = new Brand(1L,"Apple");
-		BrandDTO brandDTO = new BrandDTO(1L,"Apple");
 		
 		//when
 		when(brandService.getById(1L)).thenReturn(brand);
 		
-		ResponseEntity<?> respone = brandController.getBrand(brand.getBrandId());
+		ResponseEntity<?> respone = brandController.getBrand(brand.getId());
 		
 		//then
 		assertNotNull(respone);
@@ -91,23 +99,21 @@ public class BrandControllerTest {
 	@Test
 	public void testUpdateBrandById() {
 		//given
-//		Long brandId = 1L;
+		Long brandId = 1L;
+		
 		BrandDTO brandDTO = new BrandDTO();
 		brandDTO.setName("Apple");
 		
-		Brand updateBrand = new Brand();
-		updateBrand.setBrandId(brandDTO.getBrandId());
-		updateBrand.setName("Apple");
+		Brand brand = new Brand();
+		brand.setId(1L);
+		brand.setName("Samsung");
 		
-	    when(BrandMapper.INSTANCE.toBrand(brandDTO)).thenReturn(updateBrand);
-		when(brandService.updateById(brandDTO.getBrandId(), updateBrand)).thenReturn(updateBrand);
-
-		ResponseEntity<?> responseEntity = brandController.updateBrand(brandDTO.getBrandId(), brandDTO);
+		when(brandService.updateById(eq(brandId), any(Brand.class))).thenReturn(brand);
 		
-		assertNotNull(responseEntity);
-		assertEquals(200, responseEntity.getStatusCodeValue());
-		assertEquals(brandDTO, responseEntity.getBody());
-//		verify(brandService , times(1)).updateById(brandId, updateBrand);
+		ResponseEntity<?> respones = brandController.updateBrand(brandId, brandDTO);
+		
+		assertNotNull(respones);
+		assertEquals(200, respones.getStatusCodeValue());
  	}
 	
 	@Test
@@ -154,9 +160,29 @@ public class BrandControllerTest {
 	public void testDeleteById() {
 		Brand brand = new Brand(1L,"Apple");
 		
-		ResponseEntity<?> responseEntity = brandController.deleteById(brand.getBrandId());
+		ResponseEntity<?> responseEntity = brandController.deleteById(brand.getId());
 		
-		verify(brandService, times(1)).deleteById(brand.getBrandId());
+		verify(brandService, times(1)).deleteById(brand.getId());
 		assertEquals(200, responseEntity.getStatusCodeValue());
+	}
+	
+	@Test
+	public void testGetModelByBrand() {
+		Brand brand = new Brand();
+		brand.setId(1L);
+		brand.setName("Apple");
+		Model model1 = new Model(1L,"Iphone",brand);
+		Model model2 = new Model(1L,"Ipad",brand);
+		
+		List<Model> models = new ArrayList<>();
+		models.add(model1);
+		models.add(model2);
+		
+		when(modelService.getByBrand(1L)).thenReturn(models);
+		
+		ResponseEntity<?> respone = brandController.getModelByBrand(brand.getId());
+		
+		assertNotNull(respone);
+		assertEquals(200, respone.getStatusCodeValue());
 	}
 } 

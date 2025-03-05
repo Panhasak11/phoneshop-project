@@ -1,3 +1,9 @@
 databaseChangeLog:
   - include: 
      file: db/changelog/001_init_db_structure.yml
+  - include:
+     file: db/changelog/insert/insert_brands.yml
+  - include:
+     file: db/changelog/insert/insert_color.yml
+  - include:
+     file: db/changelog/addAutoIncrement/addAutoIncrement_master.yml

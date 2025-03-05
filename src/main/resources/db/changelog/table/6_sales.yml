@@ -1,0 +1,17 @@
+databaseChangeLog:
+ - changeSet:
+     id: 001_init_dbStructure
+     author: demboboy111017@gmail.com
+     changes:
+      - createTable:
+          tableName: sales
+          columns:
+            - column:
+                name: sale_id
+                type: BIGINT
+                constraints:
+                  primaryKey: true
+                  nullable: false
+            - column:
+                name: sale_date
+                type: DATE

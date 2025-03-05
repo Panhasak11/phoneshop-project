@@ -1,0 +1,37 @@
+databaseChangeLog:
+ - changeSet:
+     id: 001_init_dbStructure
+     author: demboboy111017@gmail.com
+     changes:
+      - createTable:
+          tableName: products
+          columns:
+            - column:
+                name: product_id
+                type: BIGINT
+                constraints:
+                  primaryKey: true
+                  nullable: false
+            - column:
+                name: name
+                type: VARCHAR(255)
+            - column:
+                name: available_unit
+                type: INT
+            - column:
+                name: color_id
+                type: BIGINT
+                constraints:
+                  foreignKey:
+                    name: fk_product_color
+                    references: colors(color_id)
+            - column:
+                name: model_id
+                type: BIGINT
+                constraints:
+                   foreignKey:
+                     name: fk_product_model
+                     references: models(model_id)
+            - column:
+                name: sale_price
+                type: DECIMAL

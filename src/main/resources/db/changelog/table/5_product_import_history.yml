@@ -1,0 +1,31 @@
+databaseChangeLog:
+ - changeSet:
+     id: 001_init_dbStructure
+     author: demboboy111017@gmail.com
+     changes:
+      - createTable:
+          tableName: product_import_history
+          columns:
+            - column:
+                name: impor_id
+                type: BIGINT
+                constraints:
+                  primaryKey: true
+                  nullable: false
+            - column:
+                name: date_import
+                type: DATE
+            - column:
+                name: import_unit
+                type: INT
+            - column:
+                name: unit_price
+                type: BIGINT
+            - column:
+                name: product_id
+                type: BIGINT
+                constraints:
+                  foreignKey:
+                     name: fk_product_import_history_product
+                     references: products(product_id)
+                

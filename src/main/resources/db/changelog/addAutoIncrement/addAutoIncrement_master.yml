@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/addAutoIncrement/addBrand.yml
+  - include:
+      file: db/changelog/addAutoIncrement/addModel.yml
+  - include:
+      file: db/changelog/addAutoIncrement/addColor.yml

@@ -47,13 +47,12 @@ public class BrandControllerTest {
 	private BrandRepository brandRepository;
 	
 	private BrandController brandController;
-	@Mock
-	private BrandMapper brandMapper;
 	
 	@Mock
 	private ModelService modelService;
 	@Mock
 	private ModelEntityMapper modelEntityMapper;
+	
 	
 	@BeforeEach
 	void setUp() {

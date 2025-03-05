@@ -27,6 +27,7 @@ import com.nha.java.coding.phone.mapper.ModelEntityMapper;
 import com.nha.java.coding.phone.service.BrandService;
 import com.nha.java.coding.phone.service.ModelService;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -37,6 +38,7 @@ public class BrandController {
 	private final BrandService brandService;
 	private final ModelService modelService;
 	private final ModelEntityMapper modelEntityMapper;
+//	private final BrandMapper brandMapper;
 	
 	
 	@PostMapping

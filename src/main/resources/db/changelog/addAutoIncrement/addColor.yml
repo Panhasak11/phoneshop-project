@@ -1,0 +1,13 @@
+databaseChangeLog:
+- changeSet:
+    id: 003_addAutoIncrement
+    author: demboboy111017@gmail.com
+    changes:
+    - addAutoIncrement:
+        columnDataType: BIGINT
+        columnName: color_id
+        generationType: ALWAYS
+        incrementBy: 1
+        schemaName: public
+        startWith: 1
+        tableName: colors

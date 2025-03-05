@@ -6,7 +6,8 @@ import org.mapstruct.factory.Mappers;
 import com.nha.java.coding.phone.dto.BrandDTO;
 import com.nha.java.coding.phone.entity.Brand;
 
-@Mapper
+
+@Mapper(componentModel = "spring")
 public interface BrandMapper {
  
 	BrandMapper INSTANCE = Mappers.getMapper(BrandMapper.class);

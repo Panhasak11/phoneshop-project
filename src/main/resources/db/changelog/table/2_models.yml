@@ -1,0 +1,24 @@
+databaseChangeLog:
+ - changeSet:
+     id: 001_init_dbStructure
+     author: demboboy111017@gmail.com
+     changes:
+      - createTable:
+          tableName: models
+          columns:
+            - column:
+                name: model_id
+                type: BIGINT
+                constraints:
+                  primaryKey: true
+                  nullable: false
+            - column:
+                name: name
+                type: VARCHAR(255)
+            - column: 
+                name: brand_id
+                type: BIGINT
+                constraints:
+                  foreignKey:
+                    name: fk_brands_models
+                    references: brands(brand_id)	

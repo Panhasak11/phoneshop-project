@@ -1,0 +1,15 @@
+databaseChangeLog:
+ - changeSet:
+     id: 002_insert_colors
+     author: demboboy111017@gmail.com
+     changes:
+      - loadData:
+          tableName: colors
+          columns:
+            - column:
+                name: color_id
+                type: NUMERIC	
+            - column:
+                name: name
+                type: STRING
+          file: db/changelog/data/002_insert_colors.csv

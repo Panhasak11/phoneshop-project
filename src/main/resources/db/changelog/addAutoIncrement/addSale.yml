@@ -1,0 +1,13 @@
+databaseChangeLog:
+- changeSet:
+    id: 004_addAutoIncrement
+    author: demboboy111017@gmail.com
+    changes:
+    - addAutoIncrement:
+        columnDataType: BIGINT
+        columnName: sale_id
+        generationType: ALWAYS
+        incrementBy: 1
+        schemaName: public
+        startWith: 1
+        tableName: sales

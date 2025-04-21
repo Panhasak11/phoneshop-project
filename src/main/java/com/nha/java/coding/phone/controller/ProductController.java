@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nha.java.coding.phone.dto.PriceDTO;
 import com.nha.java.coding.phone.dto.ProductDTO;
 import com.nha.java.coding.phone.dto.ProductImportDTO;
 import com.nha.java.coding.phone.entity.Product;
@@ -37,5 +38,17 @@ public class ProductController {
 	public ResponseEntity<?> importProduct(@RequestBody @Valid ProductImportDTO importDTO){
 		productService.importProduct(importDTO);
 		return ResponseEntity.ok().build();
+	}
+	
+	@PostMapping("{id}/salePrice")
+	public ResponseEntity<?> setPrice(@PathVariable Long id, @RequestBody PriceDTO priceDTO){
+		productService.setSalePrice(id, priceDTO.getPrice());
+		return ResponseEntity.ok().build();
+	}
+	
+	@GetMapping("{id}")
+	public ResponseEntity<?> getById(@PathVariable Long id){
+		Product product = productService.findById(id);
+		return ResponseEntity.ok(productMapper.toProductDTO(product));
 	}
 }

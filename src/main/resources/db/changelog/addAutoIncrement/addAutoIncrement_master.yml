@@ -5,3 +5,5 @@ databaseChangeLog:
       file: db/changelog/addAutoIncrement/addModel.yml
   - include:
       file: db/changelog/addAutoIncrement/addColor.yml
+  - include:
+      file: db/changelog/addAutoIncrement/addSale.yml

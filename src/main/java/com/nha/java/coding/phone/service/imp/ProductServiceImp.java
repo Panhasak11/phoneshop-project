@@ -1,5 +1,7 @@
 package com.nha.java.coding.phone.service.imp;
 
+import java.math.BigDecimal;
+
 import org.springframework.stereotype.Service;
 
 import com.nha.java.coding.phone.dto.ProductImportDTO;
@@ -40,10 +42,10 @@ public class ProductServiceImp implements ProductService{
 		//update product available unit
 		Product product = findById(importDTO.getProductId());
 		Integer availabelUnit = 0;
-		if(product.getAvailable_unit()!= null) {
-			availabelUnit = product.getAvailable_unit();
+		if(product.getAvailableUnit()!= null) {
+			availabelUnit = product.getAvailableUnit();
 		}
-		product.setAvailable_unit(availabelUnit + importDTO.getImportUnit());
+		product.setAvailableUnit(availabelUnit + importDTO.getImportUnit());
 		productRepository.save(product);
 		
 		
@@ -51,6 +53,13 @@ public class ProductServiceImp implements ProductService{
 		ProductImportHistory importHistory = productMapper.toProductImportHistory(importDTO, product);
 		importHistoryRepository.save(importHistory);
 		
+	}
+
+	@Override
+	public void setSalePrice(Long id, BigDecimal price) {
+		Product product = findById(id);
+		product.setSalePrice(price);
+		productRepository.save(product);
 	}
 
 

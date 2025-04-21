@@ -21,4 +21,6 @@ public class Sale {
 	private Long id;
 	
 	private LocalDateTime saleDate;
+	
+	private Boolean active;
 }

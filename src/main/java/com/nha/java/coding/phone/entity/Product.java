@@ -25,7 +25,7 @@ public class Product {
 	
 	private String name;
 	
-	private Integer available_unit;
+	private Integer availableUnit;
 	
 	@ManyToOne
 	@JoinColumn(name = "color_id")

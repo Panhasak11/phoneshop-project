@@ -6,4 +6,6 @@ import com.nha.java.coding.phone.entity.Sale;
 
 public interface SaleRepository extends JpaRepository<Sale, Long>{
 
+	
+
 }

@@ -1,0 +1,22 @@
+databaseChangeLog:
+ - changeSet:
+     id: 001_init_dbStructure
+     author: demboboy111017@gmail.com
+     changes:
+      - createTable:
+          tableName: users_roles
+          columns:
+            - column:
+                name: users_id
+                type: BIGINT
+                constraints:
+                  foreignKey:
+                    name: fk_users_roles_users
+                    references: users(id)
+            - column:
+               name: roles_id
+               type: BIGINT
+               constraints:
+                 foreignKey:
+                   name: fk_users_roles_role
+                   references: roles(id)

@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "brands")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Brand {
+public class Brand extends AuditEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

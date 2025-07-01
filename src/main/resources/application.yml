@@ -14,4 +14,7 @@ spring:
       matching-strategy: ant-path-matcher
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
-    enabled : true
+    enabled : false
+app:
+  jwtSecret: ======================panhasak123456===========================
+  jwtExpirationMs: 86400000

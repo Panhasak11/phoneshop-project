@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ import com.nha.java.coding.phone.mapper.ModelEntityMapper;
 import com.nha.java.coding.phone.service.BrandService;
 import com.nha.java.coding.phone.service.ModelService;
 
+import jakarta.annotation.security.RolesAllowed;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
@@ -41,7 +43,7 @@ public class BrandController {
 //	private final BrandMapper brandMapper;
 	
 	
-	@PostMapping
+	@PostMapping("/create")
 	public ResponseEntity<?> create(@RequestBody BrandDTO brandDTO){
 		Brand brand = BrandMapper.INSTANCE.toBrand(brandDTO);
 		brand = brandService.create(brand);

@@ -13,3 +13,13 @@ databaseChangeLog:
     file: db/changelog/table/6_sales.yml
  - include: 
     file: db/changelog/table/7_sale_details.yml
+ - include:
+    file: db/changelog/table/8_roles.yml
+ - include:
+    file: db/changelog/table/9_permissions.yml
+ - include:
+    file: db/changelog/table/10_roles_permission.yml
+ - include:
+    file: db/changelog/table/11_user.yml
+ - include:
+    file: db/changelog/table/12_users_roles.yml

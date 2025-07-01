@@ -1,0 +1,22 @@
+databaseChangeLog:
+ - changeSet:
+     id: 001_init_dbStructure
+     author: demboboy111017@gmail.com
+     changes:
+      - createTable:
+          tableName: roles_permissions
+          columns:
+            - column:
+                name: role_id
+                type: BIGINT
+                constraints:
+                  foreignKey:
+                    name: fk_roles_permissions_roles
+                    references: roles(id)
+            - column:
+               name: permissions_id
+               type: BIGINT
+               constraints:
+                 foreignKey:
+                   name: fk_roles_permissions_permission
+                   references: permissions(id)

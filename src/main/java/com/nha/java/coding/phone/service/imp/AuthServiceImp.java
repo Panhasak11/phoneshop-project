@@ -89,6 +89,8 @@ public class AuthServiceImp implements AuthService{
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		AuthUser userPrincipal = (AuthUser) authentication.getPrincipal();
 		
+		System.out.println("User principle ====== " + userPrincipal.getAuthorities());
+		
 		List<String> roles = userPrincipal.getAuthorities().stream()
 			.map(GrantedAuthority::getAuthority)
 			.collect(Collectors.toList());
